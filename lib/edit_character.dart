@@ -1,14 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './model_estudiante.dart';
+import 'dart:convert';
 
 class EditCharacterScreen extends StatefulWidget {
   final Character character;
 
-  const EditCharacterScreen({Key? key, required this.character})
-      : super(key: key);
+  const EditCharacterScreen({super.key, required this.character});
 
   @override
   _EditCharacterScreenState createState() => _EditCharacterScreenState();

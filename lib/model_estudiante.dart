@@ -21,8 +21,8 @@ class Character {
       'name': name,
       'age': age,
       'birthday': birthday.toIso8601String(),
-      'classId': {'id': classId},
-      'raceId': {'id': raceId},
+      'classId': classId,
+      'raceId': raceId,
     };
   }
 

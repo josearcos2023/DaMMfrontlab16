@@ -3,6 +3,7 @@ import 'package:frontlab16/edit_character.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'model_estudiante.dart';
 import 'new_character.dart';
 
@@ -108,6 +109,11 @@ class _CharacterTableScreenState extends State<CharacterTableScreen> {
     }
   }
 
+  String formatDate(String dateString) {
+    final DateTime dateTime = DateTime.parse(dateString);
+    return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -122,48 +128,55 @@ class _CharacterTableScreenState extends State<CharacterTableScreen> {
       appBar: AppBar(
         title: const Text('Character Table'),
       ),
-      body: DataTable(
-        columns: const [
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('Age')),
-          DataColumn(label: Text('Birthday')),
-          DataColumn(label: Text('Class')),
-          DataColumn(label: Text('Race')),
-          DataColumn(label: Text('')),
-          DataColumn(label: Text('')),
-        ],
-        rows: characters
-            .map((character) => DataRow(
-                  cells: [
-                    DataCell(Text(character.name)),
-                    DataCell(Text(character.age.toString())),
-                    DataCell(Text(character.birthday.toString())),
-                    DataCell(Text(getClassName(character.classId))),
-                    DataCell(Text(getRaceName(character.raceId))),
-                    DataCell(
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          deleteCharacter(character.id!);
-                        },
-                      ),
-                    ),
-                    DataCell(
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          navigateToEditCharacterScreen(character);
-                        },
-                      ),
-                    ),
-                  ],
-                ))
-            .toList(),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: DataTable(
+            columns: const [
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Age')),
+              DataColumn(label: Text('Birthday')),
+              DataColumn(label: Text('Class')),
+              DataColumn(label: Text('Race')),
+              DataColumn(label: Text('Eliminar')),
+              DataColumn(label: Text('Editar')),
+            ],
+            rows: characters
+                .map((character) => DataRow(
+                      cells: [
+                        DataCell(Text(character.name)),
+                        DataCell(Text(character.age.toString())),
+                        DataCell(
+                            Text(formatDate(character.birthday.toString()))),
+                        DataCell(Text(getClassName(character.classId))),
+                        DataCell(Text(getRaceName(character.raceId))),
+                        DataCell(
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              deleteCharacter(character.id!);
+                            },
+                          ),
+                        ),
+                        DataCell(
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              navigateToEditCharacterScreen(character);
+                            },
+                          ),
+                        ),
+                      ],
+                    ))
+                .toList(),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: navigateToNewCharacterScreen,
         tooltip: 'Add Character',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

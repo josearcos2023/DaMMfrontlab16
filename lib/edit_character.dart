@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './model_estudiante.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class EditCharacterScreen extends StatefulWidget {
   final Character character;
@@ -101,6 +102,11 @@ class _EditCharacterScreenState extends State<EditCharacterScreen> {
     } else {
       throw Exception('Failed to update character');
     }
+  }
+
+  String formatDate(String dateString) {
+    final DateTime dateTime = DateTime.parse(dateString);
+    return DateFormat('dd-MM-yyyy').format(dateTime);
   }
 
   @override
